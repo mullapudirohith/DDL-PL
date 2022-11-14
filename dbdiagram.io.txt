@@ -1,0 +1,292 @@
+
+Table "application_status_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "gender_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13)
+}
+
+Table "marital_status_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13)
+}
+
+Table "address_type_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "ownership_type_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "relationship_type_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "employment_type_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "income_range_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "contact_type_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "contact_context_reference" {
+  "id" INT4 [pk, increment]
+  "value" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "auth_type_reference" {
+  "id" INT4 [pk, increment]
+  "auth_type" VARCHAR(100) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "client_types" {
+  "id" INT4 [pk, increment]
+  "client_type" VARCHAR(50) [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "application_info" {
+  "id" INT4 [pk, increment]
+  "application_number" VARCHAR(15) [not null]
+  "status" INT4 [not null]
+  "comments" VARCHAR
+  "created_on" NUMERIC(13) [not null]
+  "updated_on" NUMERIC(13) [not null]
+  "created_by" VARCHAR(100) [not null]
+
+Indexes {
+  id [type: btree, name: "application_info_id_idx01"]
+  application_number [type: btree, name: "application_info_application_number_idx02"]
+}
+}
+
+Table "application_product_mapping" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "lead_id" VARCHAR(100)
+  "product_id" INT4 [not null]
+  "los_product_type" VARCHAR(15) [not null]
+  "created_on" NUMERIC(13) [not null]
+  "created_by" VARCHAR(100) [not null]
+
+Indexes {
+  application_id [type: btree, name: "application_product_mapping_application_id_idx01"]
+}
+}
+
+Table "workflow_application_info" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "instance_id" VARCHAR(32)
+  "business_key" VARCHAR(32)
+  "created_on" NUMERIC(13)
+  "updated_on" NUMERIC(13)
+
+Indexes {
+  application_id [type: btree, name: "workflow_application_info_application_id_idx01"]
+}
+}
+
+Table "applicant_info" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "first_name" VARCHAR(100) [not null]
+  "middle_name" VARCHAR(100)
+  "last_name" VARCHAR(100)
+  "full_name" VARCHAR(255)
+  "gender_id" INT4 [not null]
+  "salutation" VARCHAR(10)
+  "dob" date [not null]
+  "marital_status_id" INT4
+  "created_on" NUMERIC(13) [not null]
+  "updated_on" NUMERIC(13) [not null]
+
+Indexes {
+  application_id [type: btree, name: "applicant_info_application_id_idx01"]
+}
+}
+
+Table "applicant_address_info" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "address_type_id" INT4 [not null]
+  "ownership_type_id" INT4
+  "address" VARCHAR [not null]
+  "pincode" NUMERIC(6)
+  "landmark" VARCHAR
+  "latitude" "NUMERIC(8, 6)"
+  "longitude" "NUMERIC(9, 6)"
+  "city" VARCHAR(255)
+  "district" VARCHAR(255)
+  "state" VARCHAR(255)
+  "status" boolean [not null]
+  "created_on" NUMERIC(13) [not null]
+  "updated_on" NUMERIC(13) [not null]
+  "updated_by" VARCHAR(100) [not null]
+
+Indexes {
+  application_id [type: btree, name: "applicant_address_info_application_id_idx01"]
+}
+}
+
+Table "applicant_relationship_info" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "relationship_type_id" INT4 [not null]
+  "realtionship_value" VARCHAR(255) [not null]
+  "created_on" NUMERIC(13) [not null]
+  "updated_on" NUMERIC(13) [not null]
+  "updated_by" VARCHAR(100) [not null]
+
+Indexes {
+  application_id [type: btree, name: "applicant_relationship_info_application_id_idx01"]
+}
+}
+
+Table "application_events" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "event_name" VARCHAR(100) [not null]
+  "event_status" VARCHAR(50) [not null]
+  "event_value" json [not null]
+  "created_on" NUMERIC(13) [not null]
+  "triggered_by" VARCHAR(100) [not null]
+
+Indexes {
+  application_id [type: btree, name: "application_events_application_id_idx01"]
+}
+}
+
+Table "application_change_logs" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "name" VARCHAR(100) [not null]
+  "status" VARCHAR(50) [not null]
+  "value" json [not null]
+  "created_on" NUMERIC(13) [not null]
+  "triggered_by" VARCHAR(255) [not null]
+
+Indexes {
+  application_id [type: btree, name: "application_change_logs_application_id_idx01"]
+}
+}
+
+Table "applicant_employment_info" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "employment_type_id" INT4 [not null]
+  "income_range_id" INT4
+  "company_name" VARCHAR
+  "created_on" NUMERIC(13) [not null]
+  "updated_on" NUMERIC(13)
+
+Indexes {
+  application_id [type: btree, name: "applicant_employment_info_application_id_idx01"]
+}
+}
+
+Table "applicant_contact_info" {
+  "id" INT4 [pk, increment]
+  "application_id" INT4 [not null]
+  "contact_type_id" INT4 [not null]
+  "contact_context_id" INT4
+  "contact_value" VARCHAR(255) [not null]
+  "status" boolean [not null]
+  "created_on" NUMERIC(13) [not null]
+  "updated_on" NUMERIC(13) [not null]
+
+Indexes {
+  application_id [type: btree, name: "applicant_contact_info_application_id_idx01"]
+}
+}
+
+Table "consumer_products" {
+  "id" INT4 [pk, increment]
+  "client_id" INT4 [not null]
+  "product_name" VARCHAR(100) [not null]
+  "product_code" VARCHAR(15) [not null]
+  "workflow_info" json
+  "auth_type_id" INT4
+  "auth_info" json
+  "created_on" NUMERIC(13) [not null]
+}
+
+Table "consumer_clients" {
+  "id" INT4 [pk, increment]
+  "client_name" VARCHAR(100) [not null]
+  "client_code" VARCHAR(10) [not null]
+  "client_type" INT4 [not null]
+  "created_on" NUMERIC(13) [not null]
+}
+
+Ref:"application_status_reference"."id" < "application_info"."status" [delete: set null]
+
+Ref:"application_info"."id" < "application_product_mapping"."application_id" [delete: set null]
+
+Ref:"application_info"."id" < "workflow_application_info"."application_id" [delete: set null]
+
+Ref:"gender_reference"."id" < "applicant_info"."gender_id" [delete: set null]
+
+Ref:"application_info"."id" < "applicant_info"."application_id" [delete: set null]
+
+Ref:"marital_status_reference"."id" < "applicant_info"."marital_status_id" [delete: set null]
+
+Ref:"address_type_reference"."id" < "applicant_address_info"."address_type_id" [delete: set null]
+
+Ref:"ownership_type_reference"."id" < "applicant_address_info"."ownership_type_id" [delete: set null]
+
+Ref:"application_info"."id" < "applicant_address_info"."application_id" [delete: set null]
+
+Ref:"application_info"."id" < "applicant_relationship_info"."application_id" [delete: set null]
+
+Ref:"relationship_type_reference"."id" < "applicant_relationship_info"."relationship_type_id" [delete: set null]
+
+Ref:"application_info"."id" < "application_events"."application_id" [delete: set null]
+
+Ref:"application_info"."id" < "application_change_logs"."application_id" [delete: set null]
+
+Ref:"application_info"."id" < "applicant_employment_info"."application_id" [delete: set null]
+
+Ref:"employment_type_reference"."id" < "applicant_employment_info"."employment_type_id" [delete: set null]
+
+Ref:"income_range_reference"."id" < "applicant_employment_info"."income_range_id" [delete: set null]
+
+Ref:"application_info"."id" < "applicant_contact_info"."application_id" [delete: set null]
+
+Ref:"contact_type_reference"."id" < "applicant_contact_info"."contact_type_id" [delete: set null]
+
+Ref:"contact_context_reference"."id" < "applicant_contact_info"."contact_context_id" [delete: set null]
+
+Ref:"consumer_products"."id" < "application_product_mapping"."product_id" [delete: set null]
+
+Ref:"auth_type_reference"."id" < "consumer_products"."auth_type_id" [delete: set null]
+
+Ref:"consumer_clients"."id" < "consumer_products"."client_id" [delete: set null]
+
+Ref:"client_types"."id" < "consumer_clients"."client_type" [delete: set null]
